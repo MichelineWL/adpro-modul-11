@@ -24,3 +24,20 @@ Menampilkan resource di namespace kube-system, yang berisi komponen internal Kub
 Namespace dalam Kubernetes berfungsi untuk mengelompokkan resource ke dalam ruang lingkup yang terpisah. Ketika perintah menggunakan -n kube-system, maka resource di namespace lain (seperti default) tidak akan terlihat.
 
 Kesimpulan: Opsi -n digunakan untuk menentukan namespace tertentu. Tanpa opsi ini, kubectl hanya akan menampilkan resource dari namespace default.
+
+---
+
+#### Perbedaan antara strategi deployment Rolling Update dan Recreate
+Strategi Rolling Update dan Recreate digunakan dalam Kubernetes untuk menentukan bagaimana proses pembaruan (update) terhadap aplikasi yang sedang berjalan dilakukan.
+Berikut perbedaannya:
+
+Rolling Update melakukan pembaruan secara bertahap, yaitu dengan men-deploy pod baru satu per satu sambil tetap menjaga agar pod lama tetap berjalan hingga pod baru siap. Ini cocok digunakan jika kamu ingin menghindari downtime, karena aplikasi tetap tersedia selama proses update.
+
+Recreate akan menghentikan semua pod lama terlebih dahulu sebelum membuat pod baru. Strategi ini bisa menyebabkan downtime, tetapi lebih sederhana dan cocok untuk aplikasi yang tidak dapat menjalankan versi lama dan baru secara bersamaan (misalnya karena konflik database atau dependency).
+
+Dari sisi keamanan dan kenyamanan pengguna, Rolling Update biasanya lebih disukai untuk aplikasi yang harus terus online, sedangkan Recreate bisa digunakan untuk update besar yang butuh "start fresh".
+
+---
+
+####  Manfaat menggunakan file manifest Kubernetes
+Menggunakan file manifest Kubernetes sangat membantu karena mempermudah proses deployment menjadi lebih cepat, konsisten, dan otomatis. Dengan satu perintah kubectl apply -f, semua konfigurasi yang tertulis di dalam file YAML dapat langsung diterapkan ke cluster tanpa perlu mengetik perintah manual satu per satu. Ini mengurangi potensi kesalahan dan mempercepat pengelolaan aplikasi, terutama saat bekerja dalam tim atau mengelola banyak resource sekaligus.
